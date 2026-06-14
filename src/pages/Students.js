@@ -5,21 +5,15 @@ const Students = () => {
   const [students, setStudents] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editStudent, setEditStudent] = useState(null);
-  const [form, setForm] = useState({
-    firstName: '', lastName: '', email: '', phoneNumber: '', course: ''
-  });
+  const [form, setForm] = useState({ firstName: '', lastName: '', email: '', phoneNumber: '', course: '' });
 
-  useEffect(() => {
-    fetchStudents();
-  }, []);
+  useEffect(() => { fetchStudents(); }, []);
 
   const fetchStudents = async () => {
     try {
-      const res = await getStudents();
+      const res = await getStudents(0,20);
       setStudents(res.data.content);
-    } catch (err) {
-      console.error(err);
-    }
+    } catch (err) { console.error(err); }
   };
 
   const handleSubmit = async (e) => {
@@ -34,25 +28,17 @@ const Students = () => {
       setEditStudent(null);
       setForm({ firstName: '', lastName: '', email: '', phoneNumber: '', course: '' });
       fetchStudents();
-    } catch (err) {
-      console.error(err);
-    }
+    } catch (err) { console.error(err); }
   };
 
   const handleEdit = (student) => {
     setEditStudent(student);
-    setForm({
-      firstName: student.firstName,
-      lastName: student.lastName,
-      email: student.email,
-      phoneNumber: student.phoneNumber,
-      course: student.course,
-    });
+    setForm({ firstName: student.firstName, lastName: student.lastName, email: student.email, phoneNumber: student.phoneNumber, course: student.course });
     setShowForm(true);
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this student?')) {
+    if (window.confirm('Delete this student?')) {
       await deleteStudent(id);
       fetchStudents();
     }
@@ -77,16 +63,11 @@ const Students = () => {
         <div style={styles.form}>
           <h3>{editStudent ? 'Edit Student' : 'Add New Student'}</h3>
           <form onSubmit={handleSubmit}>
-            <input style={styles.input} placeholder="First Name" value={form.firstName}
-              onChange={(e) => setForm({ ...form, firstName: e.target.value })} required />
-            <input style={styles.input} placeholder="Last Name" value={form.lastName}
-              onChange={(e) => setForm({ ...form, lastName: e.target.value })} required />
-            <input style={styles.input} placeholder="Email" value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })} />
-            <input style={styles.input} placeholder="Phone Number" value={form.phoneNumber}
-              onChange={(e) => setForm({ ...form, phoneNumber: e.target.value })} />
-            <select style={styles.input} value={form.course}
-              onChange={(e) => setForm({ ...form, course: e.target.value })} required>
+            <input style={styles.input} placeholder="First Name" value={form.firstName} onChange={(e) => setForm({ ...form, firstName: e.target.value })} required />
+            <input style={styles.input} placeholder="Last Name" value={form.lastName} onChange={(e) => setForm({ ...form, lastName: e.target.value })} required />
+            <input style={styles.input} placeholder="Email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+            <input style={styles.input} placeholder="Phone Number" value={form.phoneNumber} onChange={(e) => setForm({ ...form, phoneNumber: e.target.value })} />
+            <select style={styles.input} value={form.course} onChange={(e) => setForm({ ...form, course: e.target.value })} required>
               <option value="">Select Course</option>
               <option value="Computer Science">Computer Science</option>
               <option value="Education">Education</option>
@@ -96,9 +77,7 @@ const Students = () => {
             </select>
             <div style={styles.formButtons}>
               <button style={styles.button} type="submit">{editStudent ? 'Update' : 'Save'}</button>
-              <button style={styles.cancelBtn} type="button" onClick={() => {
-                setShowForm(false); setEditStudent(null);
-              }}>Cancel</button>
+              <button style={styles.cancelBtn} type="button" onClick={() => { setShowForm(false); setEditStudent(null); }}>Cancel</button>
             </div>
           </form>
         </div>
