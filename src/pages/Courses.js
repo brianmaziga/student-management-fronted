@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getCourses, createCourse, updateCourse, deleteCourse, enrollStudent, unenrollStudent } from '../api/courses';
+import { getCourses, createCourse, updateCourse, deleteCourse} from '../api/courses';
 import { getStudents } from '../api/students';
 
 const Courses = () => {
@@ -11,10 +11,7 @@ const Courses = () => {
   const [selectedCourse, setSelectedCourse] = useState('');
   const [selectedStudent, setSelectedStudent] = useState('');
 
-  useEffect(() => {
-    fetchCourses();
-    fetchStudents();
-  }, []);
+  useEffect(() => { fetchCourses(); fetchStudents(); }, []);
 
   const fetchCourses = async () => {
     const res = await getCourses();
@@ -70,12 +67,9 @@ const Courses = () => {
         <div style={styles.form}>
           <h3>{editCourse ? 'Edit Course' : 'Add New Course'}</h3>
           <form onSubmit={handleSubmit}>
-            <input style={styles.input} placeholder="Course Name" value={form.name}
-              onChange={(e) => setForm({ ...form, name: e.target.value })} required />
-            <input style={styles.input} placeholder="Course Code" value={form.code}
-              onChange={(e) => setForm({ ...form, code: e.target.value })} required />
-            <input style={styles.input} placeholder="Description" value={form.description}
-              onChange={(e) => setForm({ ...form, description: e.target.value })} />
+            <input style={styles.input} placeholder="Course Name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
+            <input style={styles.input} placeholder="Course Code" value={form.code} onChange={(e) => setForm({ ...form, code: e.target.value })} required />
+            <input style={styles.input} placeholder="Description" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
             <div style={styles.formButtons}>
               <button style={styles.button} type="submit">{editCourse ? 'Update' : 'Save'}</button>
               <button style={styles.cancelBtn} type="button" onClick={() => setShowForm(false)}>Cancel</button>
